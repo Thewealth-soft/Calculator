@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <h1>Calculator Design Using HTML Layout</h1>
+  <div class="container">
+    <div class="header">Calculator</div>
+    <input type="text" class="result" placeholder="0" readonly>
+    <div class="first-row">
+      <button value="&radic;" class="operator">&radic;</button>
+      <button value="(" class="operator">(</button>
+      <button value=")" class="operator">)</button>
+      <button value="%" class="operator ">%</button>
+    </div>
+    <div class="second-row">
+      <button value="7" class="global">7</button>
+      <button value="8" class="global">8</button>
+      <button value="9" class="global">9</button>
+      <button value="/" class=" operator ">/</button>
+    </div>
+    <div class="third-row">
+      <button value="4" class="global">4</button>
+      <button value="5" class="global">5</button>
+      <button value="6" class="global">6</button>
+      <button value="*" class="operator ">X</button>
+    </div>
+    <div class="fourth-row">
+      <button value="1" class="global">1</button>
+      <button value="2" class="global">2</button>
+      <button value="3" class="global">3</button>
+      <button value="-" class="operator ">-</button>
+    </div>
+    <div class="conflict">
+      <div class="left">
+        <button value="0" class=" global big">0</button>
+        <button  value="." class="operator small">.</button>
+        <button value="Del" class=" del red small white-text top-margin">Del</button>
+        <button value="=" class=" global equal-to white-text big top-margin">=</button>
+      </div>
+      <div class="right">
+        <button value="+" class="operator grey plus">+</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+
+</html>

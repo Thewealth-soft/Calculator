@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Calculator2</title>
+  <style>
+    /* Add your styling here */
+  </style>
+</head>
+
+<body>
+  <input type="text" class="result" readonly>
+  <div>
+    <button class="global">1</button>
+    <button class="global">2</button>
+    <button class="global">3</button>
+    <button class="operator">+</button>
+  </div>
+  <div>
+    <button class="global">4</button>
+    <button class="global">5</button>
+    <button class="global">6</button>
+    <button class="operator">-</button>
+  </div>
+  <div>
+    <button class="global">7</button>
+    <button class="global">8</button>
+    <button class="global">9</button>
+    <button class="operator">*</button>
+  </div>
+  <div>
+    <button class="operator">/</button>
+    <button class="global">0</button>
+    <button class="operator">%</button>
+    <button class="equal-to">=</button>
+  </div>
+  <button class="del">Clear</button>
+  <script>
+    const inputEl = document.querySelectorAll(".global");
+    const resultEl = document.querySelector(".result");
+    const deleteEl = document.querySelector(".del");
+    const equalEl = document.querySelector(".equal-to");
+    const operatorEl = document.querySelectorAll(".operator");
+
+    let currentInput = "";
+
+    function updateDisplay(value) {
+      resultEl.value = value;
+    }
+
+    function handleInput(buttonText) {
+      currentInput += buttonText;
+      updateDisplay(currentInput);
+    }
+
+    function handleEqual() {
+      try {
+        const result = calculate(currentInput);
+        currentInput = result.toString();
+        updateDisplay(currentInput);
+      } catch (error) {
+        updateDisplay("Error");
+      }
+    }
+
+    inputEl.forEach((button) => {
+      button.addEventListener("click", () => {
+        handleInput(button.textContent);
+      });
+    });
+
+    operatorEl.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        handleInput(e.target.textContent);
+      });
+    });
+
+    deleteEl.addEventListener("click", () => {
+      currentInput = "";
+      updateDisplay("");
+    });
+
+    equalEl.addEventListener("click", () => {
+      handleEqual();
+    });
+
+    function calculate(expression) {
+      const tokens = expression.match(/(\d+|\+|\-|\*|\/|%)/g);
+      if (!tokens) {
+        throw new Error("Syntax Error");
+      }
+
+      let result = parseFloat(tokens[0]);
+      let operator = "";
+
+      for (let i = 1; i < tokens.length; i++) {
+        const token = tokens[i];
+
+        if (isNaN(token)) {
+          operator = token;
+
+          if (operator !== "%") {
+            throw new Error("Invalid operator");
+          }
+        } else {
+          const operand = parseFloat(token);
+
+          if (isNaN(operand)) {
+            throw new Error("Invalid expression");
+          }
+
+          switch (operator) {
+            case "+":
+              result += operand;
+              break;
+            case "-":
+              result -= operand;
+              break;
+            case "*":
+              result *= operand;
+              break;
+            case "/":
+              if (operand === 0) {
+                throw new Error("Division by zero");
+              }
+              result /= operand;
+              break;
+            case "%":
+              result %= operand;
+              break;
+            default:
+              throw new Error("Invalid operator");
+          }
+          operator = ""; // Reset the operator for the next iteration
+        }
+      }
+      return result;
+    }
+  </script>
+</body>
+
+</html>
