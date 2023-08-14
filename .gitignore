@@ -1,0 +1,23 @@
+Regular expressions to handle most possible mathematical expressions
+
+
+/(
+  \s*                        # Whitespace Ignoring
+  |                          # OR
+  \d+(\.\d+)?                # Match numbers (including decimals)
+  |                          # OR
+  [\+\-\*\/%^√|!]            # Match arithmetic and logical operators
+  |                          # OR
+  [a-z]+                     # Match lowercase letters
+  |                          # OR
+  (\d+)(!)\s*(\d+)           # Match expressions like "3!7"
+  |                          # OR
+  (\d+)\s*([√!])\s*(\d+)     # Match expressions like "2√25"
+  |                          # OR
+  \(.*?\)                    # Parentheses for Grouping
+  |                          # OR
+  \d+(\.\d+)?[eE][-+]?\d+    # Exponential Notation (e.g., "2e3" or "1.5E-2")
+)/g
+
+The merged expressions to be use in JavaScript file
+/(\s*|\d+(\.\d+)?|[\+\-\*\/%^√|!]|[a-z]+|(\d+)(!)\s*(\d+)|(\d+)\s*([√!])\s*(\d+)|\(.*?\)|\d+(\.\d+)?[eE][-+]?\d+)/g   

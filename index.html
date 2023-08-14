@@ -10,47 +10,54 @@
 
 <body>
 
-  <h1>Calculator Design Using HTML Layout</h1>
+
   <div class="container">
     <div class="header">Calculator</div>
-    <input type="text" class="result" placeholder="0" readonly>
+    <input type="text" class="result" placeholder="0" readonly disabled>
+    <div class="inner-container">
     <div class="first-row">
-      <button value="&radic;" class="operator">&radic;</button>
-      <button value="(" class="operator">(</button>
-      <button value=")" class="operator">)</button>
-      <button value="%" class="operator ">%</button>
+      <button value="&radic;" class="operator bg-blue">&radic;</button>
+      <button value="(" class="operator bracket bg-blue">(</button>
+      <button value=")" class="operator bracket bg-blue">)</button>
+      <button value="*" class="operator bg-blue">X</button>
+
     </div>
     <div class="second-row">
       <button value="7" class="global">7</button>
       <button value="8" class="global">8</button>
       <button value="9" class="global">9</button>
-      <button value="/" class=" operator ">/</button>
+      <button value="/" class=" operator bg-blue ">/</button>
     </div>
     <div class="third-row">
       <button value="4" class="global">4</button>
       <button value="5" class="global">5</button>
       <button value="6" class="global">6</button>
-      <button value="*" class="operator ">X</button>
+      <button value="+" class="operator bg-blue">+</button>
+
     </div>
     <div class="fourth-row">
       <button value="1" class="global">1</button>
       <button value="2" class="global">2</button>
       <button value="3" class="global">3</button>
-      <button value="-" class="operator ">-</button>
+      <button value="-" class="operator bg-blue ">-</button>
     </div>
-    <div class="conflict">
-      <div class="left">
-        <button value="0" class=" global big">0</button>
-        <button  value="." class="operator small">.</button>
-        <button value="Del" class=" del red small white-text top-margin">Del</button>
-        <button value="=" class=" global equal-to white-text big top-margin">=</button>
-      </div>
-      <div class="right">
-        <button value="+" class="operator grey plus">+</button>
-      </div>
+    <div class="fifth_row">
+      <button value="0" class=" global">0</button>
+      <button value="." class="operator">.</button>
+      <button value="!" class="operator ">!</button>
+      <button value="=" class=" global equal-to">=</button>
     </div>
-  </div>
-  <script src="script.js"></script>
-</body>
 
+    <div class="last-row">
+      <button value="%" class="operator ">%</button>
+      <button value="^" class=" operator ">^</button>
+      <button value="Del" class=" del red">Del</button>
+
+    </div>
+</div>
+  </div>
+  <!-- Below are two different approach, The script2 file handle almost all expression but script file is limited -->
+  <script src="script2.js"></script>
+  <!-- <script src="script.js"></script> -->
+</body>
 </html>

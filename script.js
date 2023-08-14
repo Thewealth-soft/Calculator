@@ -1,8 +1,10 @@
+
 const inputEl = document.querySelectorAll(".global");
 const resultEl = document.querySelector(".result");
 const deleteEl = document.querySelector(".del");
 const equalEl = document.querySelector(".equal-to");
 const operatorEl = document.querySelectorAll(".operator");
+const bracketEl =document.querySelectorAll('.bracket')
 
 let currentInput = "";
 let operatorInput = "";
@@ -15,15 +17,20 @@ inputEl.forEach((button) => {
     resultEl.value = currentInput;
   });
 });
+
 operatorEl.forEach((button) => {
   button.addEventListener("click", (e) => {
-  operatorInput = e.target.value;
-  currentInput += operatorInput;
-  currentNumber = "";
-  resultEl.value = currentInput;
+    if (operatorInput !== "") {
+      operatorInput = e.target.value;
+      currentInput = currentInput + operatorInput;
+    } else {
+      operatorInput = e.target.value;
+      currentInput += operatorInput;
+      currentNumber = "";
+    }
+    resultEl.value = currentInput;
+  });
 });
-})
-
 
 deleteEl.addEventListener("click", () => {
   operatorInput = "";
@@ -33,24 +40,24 @@ deleteEl.addEventListener("click", () => {
 });
 
 function calculate(expression) {
-  const tokens = expression.match(/[\+\-\*\/]/g);
+  const tokens = expression.match(
+    // /(\d+(\.\d+)?|[\+\-\*\/%^√|!]|[a-z]+|[\(\)])/g
+    /(\d+(\.\d+)?|[+\-*/%^√!]|[a-z]+|[()])/g
+  );
 
-  console.log(`this is the token click ${tokens}`);
   if (!tokens) {
     throw new Error("Invalid expression");
   }
 
-  let result = tokens[0];
+  let result = parseFloat(tokens[0]);
   let operator = "";
+  const stack = [];
 
   for (let i = 1; i < tokens.length; i++) {
     const token = tokens[i];
-    console.log(`This is the token from loop ${token}`);
-    if (!isNaN(token)) {
+
+    if (isNaN(token)) {
       operator = token;
-      if (operator !== "%") {
-        throw new Error("Unsupported operator");
-      }
     } else {
       const operand = parseFloat(token);
 
@@ -69,25 +76,79 @@ function calculate(expression) {
           result *= operand;
           break;
         case "/":
+          if (operand === 0) {
+            throw new Error("Division by zero");
+          }
           result /= operand;
-          break
+          break;
+        case "%":
+          result %= operand;
+          break;
+        case "√":
+          result = Math.sqrt(operand);
+          break;
+        case "^":
+          result = Math.pow(result, operand);
+          break;
+        case "!":
+          let factorial = 1;
+          for (let j = 1; j <= operand; j++) {
+            factorial *= j;
+          }
+          result = factorial;
+          break;
+
+        case "(":
+          // Push current result and operator onto stack
+          stack.push(result);
+          stack.push(operator);
+          result = operand; // Start evaluating expression within parentheses
+          operator = "";
+          break;
+        case ")":
+          // Pop operator and previous result from stack
+          
+            const prevOperator = stack.pop();
+            const prevResult = stack.pop();
+            switch (prevOperator) {
+              case "+":
+                result = prevResult + result;
+                break;
+              case "-":
+                result = prevResult - result;
+                break;
+              case "*":
+                result = prevResult * result;
+                break;
+              case "/":
+                if (result === 0) {
+                  throw new Error("Division by zero");
+                }
+                result = prevResult / result;
+                break;
+              case "%":
+                result = prevResult % result;
+                break;
+              default:
+                throw new Error("Unsupported operator");
+            }
+            operator = ""; // Reset the operator for the next iteration
+          break;
         default:
           throw new Error("Unsupported operator");
       }
-      operator = "";
+      operator = ""; // This is to reset the operation for the next iteration
     }
   }
   return result;
 }
 
-
 equalEl.addEventListener("click", () => {
   try {
-    const inputExpression = currentInput + currentNumber;
-    const result = calculate(inputExpression);
+    const result = calculate(currentInput);
     resultEl.value = result;
-    // This to Reset the variables for the next calculation
-    currentInput = "";
+    // Reset the variables for the next calculation
+    currentInput = result.toString();
     operatorInput = "";
     currentNumber = "";
   } catch (error) {
